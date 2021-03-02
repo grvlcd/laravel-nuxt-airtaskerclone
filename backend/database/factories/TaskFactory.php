@@ -22,8 +22,8 @@ class TaskFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->sentence(),
-            'description' => $this->faker->paragraph(),
+            'title' => $this->faker->sentence(3),
+            'description' => $this->faker->sentence(),
             'amount' => $this->faker->numberBetween(10,50),
             'desired_date' => $this->faker->dateTimeBetween($startDate = '-1 year', $endDate = 'now', $timezone = null),
             'address' => 'remote',

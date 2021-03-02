@@ -36,7 +36,10 @@ export default {
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    credentials: true,
+    baseURL: "http://localhost:8000"
+  },
 
   // Route styling
   router: {
@@ -68,7 +71,7 @@ export default {
     redirect: {
       login: "/auth/login",
       logout: "/",
-      home: "/" // success login redirect if needed to be change just put the url path here
+      home: "/dashboard" // success login redirect if needed to be change just put the url path here
     }
   },
 

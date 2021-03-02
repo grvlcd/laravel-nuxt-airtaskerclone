@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // Task Routes -------------------------------------------------------------
 Route::apiResource('tasks', TaskController::class);
+
+// Comment Routes ----------------------------------------------------------
+Route::apiResource('comments', CommentController::class)->only(['store', 'update', 'destroy']);
 
 // Public Routes -----------------------------------------------------------
 Route::post('/login', [LoginController::class, 'login']);

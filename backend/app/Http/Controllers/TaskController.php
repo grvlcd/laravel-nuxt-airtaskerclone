@@ -14,7 +14,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::with(['user'])->latest()->get();
+        $tasks = Task::with(['user', 'comments'])->latest()->get();
         return response()->json([
             'data' => $tasks
         ]);
@@ -28,7 +28,9 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        $task = Task::create($request->all());
+        $user = $request->user();
+        $task = $user->tasks()->create($request->all());
+        $task->user();
         return response()->json([
             'data' => $task
         ]);
@@ -58,6 +60,7 @@ class TaskController extends Controller
     public function update(Request $request, Task $task)
     {
         $task->update($request->all());
+        $task->user;
         return response()->json([
             'data' => $task
         ]);
@@ -72,6 +75,9 @@ class TaskController extends Controller
     public function destroy(Task $task)
     {
         $task->delete();
-        return response()->json(null, 204);
+        return response()->json([
+            'status' => 204,
+            'message' => 'Task deleted.'
+        ]);
     }
 }
