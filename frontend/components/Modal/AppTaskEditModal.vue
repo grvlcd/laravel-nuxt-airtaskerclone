@@ -67,13 +67,20 @@ export default {
   data() {
     return {
       form: {
-        title: this.task.title,
-        description: this.task.description,
-        amount: this.task.amount,
-        address: this.task.address,
-        desired_date: this.task.desired_date,
+        title: "",
+        description: "",
+        amount: "",
+        address: "",
+        desired_date: "",
       },
     };
+  },
+  mounted() {
+    this.form.title = this.task.title;
+    this.form.description = this.task.description;
+    this.form.amount = this.task.amount;
+    this.form.address = this.task.address;
+    this.form.desired_date = this.task.desired_date;
   },
   methods: {
     ...mapActions("utils/modal", ["setEditVisibility"]),
@@ -87,13 +94,15 @@ export default {
     async onConfirmEdit() {
       try {
         await this.$axios.get("/sanctum/csrf-cookie");
-        const response = await this.$axios.patch(
+        const response = await this.$axios.$patch(
           `/api/tasks/${this.task.id}`,
           this.form
         );
-        this.updateTask(response.data.data);
+        console.log(response.data);
+        this.setTask(null);
+        this.updateTask(response.data);
         this.setEditVisibility(false);
-        this.$emit("update", response.data.data);
+        this.$emit("update", response.data);
       } catch (error) {
         console.log(error);
       }

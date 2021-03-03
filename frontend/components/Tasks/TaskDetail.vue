@@ -46,19 +46,29 @@
       </div>
       <p class="mb-4 text-lg text-justify">{{ task.description }}</p>
     </div>
+    <AppComments 
+      v-for="comment in getComments" 
+      :key="comment.id" 
+      :comment="comment"
+    />
     <AppTaskEditModal
         :show="getEditModalState"
         :task="task"
         @update="updateToList"
       />
+    <AppCommentForm :task_id="task.id"/>
   </div>
 </template>
 <script>
 import { mapActions, mapGetters } from "vuex";
 import AppTaskEditModal from "@/components/Modal/AppTaskEditModal.vue";
+import AppComments from "@/components/Comments/AppComments.vue";
+import AppCommentForm from "@/components/Comments/AppCommentForm.vue";
 export default {
   components: {
     AppTaskEditModal,
+    AppComments,
+    AppCommentForm,
   },
   props: {
     task: {
@@ -68,6 +78,7 @@ export default {
   },
   computed: {
     ...mapGetters("utils/modal", ["getEditModalState"]),
+    ...mapGetters("Comments/comment", ["getComments"]),
   },
   methods: {
     ...mapActions("utils/modal", ["setEditVisibility"]),

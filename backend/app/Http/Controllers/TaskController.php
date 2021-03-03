@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Task;
+use App\Models\User;
+use App\Http\Resources\TaskCollection;
+use App\Http\Resources\Task as TaskResource;
 
 class TaskController extends Controller
 {
@@ -14,10 +17,8 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::with(['user', 'comments'])->latest()->get();
-        return response()->json([
-            'data' => $tasks
-        ]);
+        $tasks = Task::with(['comments'])->latest()->get();
+        return new TaskCollection($tasks);
     }
 
     /**
@@ -30,24 +31,7 @@ class TaskController extends Controller
     {
         $user = $request->user();
         $task = $user->tasks()->create($request->all());
-        $task->user();
-        return response()->json([
-            'data' => $task
-        ]);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Task $task)
-    {
-        $task->user;
-        return response()->json([
-            'data' => $task
-        ]);
+        return new TaskResource($task);
     }
 
     /**
@@ -61,9 +45,7 @@ class TaskController extends Controller
     {
         $task->update($request->all());
         $task->user;
-        return response()->json([
-            'data' => $task
-        ]);
+        return new TaskResource($task);
     }
 
     /**

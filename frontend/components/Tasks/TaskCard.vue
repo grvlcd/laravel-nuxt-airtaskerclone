@@ -55,8 +55,10 @@ export default {
   },
   methods: {
     ...mapActions("Tasks/task", ["setTask"]),
+    ...mapActions("Comments/comment", ["setComments"]),
     onSetTask() {
       this.setTask(this.task);
+      this.setComments(this.task.comments);
     },
   },
 };

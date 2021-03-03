@@ -13,8 +13,7 @@ class Comment extends Model
 
     protected $fillable = [
         'body',
-        'user_id',
-        'task_id',
+        'task_id'
     ];
 
     public function task() {
