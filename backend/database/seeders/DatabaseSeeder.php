@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Task;
 use App\Models\Comment;
+use App\Models\Profile;
 
 class DatabaseSeeder extends Seeder
 {

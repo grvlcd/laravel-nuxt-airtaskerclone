@@ -19,10 +19,10 @@
         class="items-start justify-start flex-grow hidden w-full sm:flex sm:w-auto"
         v-if="$auth.loggedIn"
       >
-        <a
-          role="button"
+        <nuxt-link
+          :to="{ name: 'dashboard' }"
           class="block mt-4 mr-4 text-white capitalize lg:inline-block lg:mt-0"
-          >Browse Tasks</a
+          >Browse Tasks</nuxt-link
         >
         <a
           role="button"
@@ -48,10 +48,10 @@
             >
           </template>
           <template class="flex flex-row" v-if="$auth.loggedIn">
-            <a
-              role="button"
+            <nuxt-link
+              :to="{ name: 'profile' }"
               class="block mt-4 mr-4 text-white capitalize lg:inline-block lg:mt-0"
-              >{{ $auth.user.name }}</a
+              >{{ $auth.user.name }}</nuxt-link
             >
             <a
               role="button"
@@ -95,10 +95,10 @@
             >
           </template>
           <template v-if="$auth.loggedIn">
-            <a
-              role="button"
+            <nuxt-link
+              :to="{ name: 'profile' }"
               class="block mt-4 mr-4 text-white lg:inline-block lg:mt-0"
-              >{{ $auth.user.name }}</a
+              >{{ $auth.user.name }}</nuxt-link
             >
             <a
               role="button"
@@ -133,6 +133,7 @@ export default {
       this.$auth.logout();
     },
     showModal() {
+      this.$router.push({ name: "dashboard" });
       this.setVisibility(true);
     },
   },

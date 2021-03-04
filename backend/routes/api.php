@@ -6,6 +6,8 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ProfileController;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,9 +21,12 @@ use App\Http\Controllers\CommentController;
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+    $user = User::with('profile')->where('id', '=', $request->user()->id)->get()->first();
+    return $user;
 });
 
+// User Routes -------------------------------------------------------------
+Route::apiResource('profiles', ProfileController::class)->only(['show', 'update']);
 
 // Task Routes -------------------------------------------------------------
 Route::apiResource('tasks', TaskController::class);

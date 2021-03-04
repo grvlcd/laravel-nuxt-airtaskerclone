@@ -23,7 +23,7 @@
       <div v-if="task.user" class="mb-1">
         <p>
           Posted by:
-          <span class="text-lg font-semibold">{{ task.user.name }}</span>
+          <NuxtLink class="text-lg font-semibold" :to="{ name: 'profile-slug', params: { slug: task.user.id}}">{{ task.user.name }}</NuxtLink>
         </p>
         <div v-if="task.user.id === $auth.user.id">
           <button class="bg-green-300" v-on:click="showEditModal">update</button>

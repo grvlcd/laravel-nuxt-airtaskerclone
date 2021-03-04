@@ -1,6 +1,6 @@
 <template lang="">
     <div v-if="show">
-        <div class="fixed top-0 left-0 flex items-center justify-center w-full h-screen bg-black bg-opacity-50 modal">
+        <div class="fixed top-0 left-0 flex items-center justify-center w-full h-screen bg-black bg-opacity-50 modal" v-on:keydown.esc="onCancelModal" v-on:click.self="onCancelModal">
             <!-- modal -->
             <div class="w-1/3 bg-white rounded shadow-lg">
             <!-- modal header -->
