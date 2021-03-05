@@ -21,7 +21,10 @@ use App\Models\User;
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    $user = User::with('profile')->where('id', '=', $request->user()->id)->get()->first();
+    $user = User::with(['profile'])->where('id', '=', $request->user()->id)->get()->first();
+    $user->profile->skills;
+    $user->profile->educations;
+    $user->profile->experiences;
     return $user;
 });
 

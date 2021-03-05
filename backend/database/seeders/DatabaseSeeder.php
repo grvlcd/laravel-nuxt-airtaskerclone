@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Task;
 use App\Models\Comment;
 use App\Models\Profile;
+use App\Models\Skill;
 
 class DatabaseSeeder extends Seeder
 {

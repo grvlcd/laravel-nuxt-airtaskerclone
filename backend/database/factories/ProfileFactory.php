@@ -31,7 +31,7 @@ class ProfileFactory extends Factory
             'age' => $this->faker->numberBetween(18, 50),
             'birthday' => $this->faker->dateTimeBetween($startDate = '-30 years', $endDate = 'now'),
             'bio' => $this->faker->sentence(3), 
-            'gender' => $this->faker->randomElement(['male', 'female'])
+            'gender' => $this->faker->randomElement(['male', 'female']),
         ];
     }
 }
