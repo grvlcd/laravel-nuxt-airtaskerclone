@@ -1,7 +1,9 @@
-<template lang="">
+<template>
   <div v-if="user">
     <h1 class="text-2xl">{{ user.name }}</h1>
-    <h6 class="text-gray-600" v-if="user.profile">{{ user.profile.bio }}</h6>
+    <h6 class="text-gray-600" v-if="user.profile">
+      {{ user.profile.bio }}
+    </h6>
     <h4 class="text-xs text-gray-500">
       Joined @ <i>{{ user.created_at }}</i>
     </h4>
@@ -40,10 +42,28 @@
         >{{ user.profile.gender }}
       </p>
       <div v-if="user.profile.experiences">
-        <h1 class="text-2xl mt-4">Experience</h1>
+        <div class="flex flex-row items-baseline">
+          <h1 class="mt-4 mr-2 text-2xl">Experience</h1>
+          <div v-if="$auth.user.id === user.id">
+            <a
+              class="text-blue-300"
+              v-on:click="showExperienceModal"
+              role="button"
+            >
+              add
+            </a>
+            <a
+              class="text-green-300"
+              v-on:click="showEditExperienceModal"
+              role="button"
+            >
+              edit
+            </a>
+          </div>
+        </div>
         <ul>
           <li
-            class="text-md text-black"
+            class="text-black text-md"
             v-for="experience in user.profile.experiences"
             :key="experience.id"
           >
@@ -56,8 +76,8 @@
       </div>
       <div v-if="user.profile.educations">
         <div class="flex flex-row items-baseline">
-          <h1 class="text-2xl mt-4 mr-2">Education</h1>
-          <div v-if="($auth.user.id === user.id)">
+          <h1 class="mt-4 mr-2 text-2xl">Education</h1>
+          <div v-if="$auth.user.id === user.id">
             <a
               class="text-blue-300"
               v-on:click="showEducationModal"
@@ -76,7 +96,7 @@
         </div>
         <ul>
           <li
-            class="text-md text-black"
+            class="text-black text-md"
             v-for="education in user.profile.educations"
             :key="education.id"
           >
@@ -88,10 +108,24 @@
         </ul>
       </div>
       <div v-if="user.profile.skills">
-        <h1 class="text-2xl mt-4">Skills</h1>
+        <div class="flex flex-row items-baseline">
+          <h1 class="mt-4 mr-2 text-2xl">Skills</h1>
+          <div v-if="$auth.user.id === user.id">
+            <a class="text-blue-300" v-on:click="showSkillModal" role="button">
+              add
+            </a>
+            <a
+              class="text-green-300"
+              v-on:click="showEditSkillModal"
+              role="button"
+            >
+              edit
+            </a>
+          </div>
+        </div>
         <ul>
           <li
-            class="text-md text-gray-600"
+            class="text-gray-600 text-md"
             v-for="skills in user.profile.skills"
             :key="skills.id"
           >
@@ -101,20 +135,46 @@
       </div>
     </div>
     <AppProfileAddEducation :show="getEducationModalState" />
-    <AppProfileEditEducation
-      :show="getEditEducationModalState"
-      :educations="user.profile.educations"
-    />
+    <template v-if="user.profile">
+      <AppProfileEditEducation
+        :show="getEditEducationModalState"
+        :educations="user.profile.educations"
+      />
+      <AppProfileAddExperienceModal
+        :show="getExperienceModalState"
+      ></AppProfileAddExperienceModal>
+      <AppProfileEditExperienceModal
+        :show="getEditExperienceModalState"
+        :experiences="user.profile.experiences"
+      >
+      </AppProfileEditExperienceModal>
+      <AppProfileAddSkillModal
+        :show="getSkillModalState"
+      ></AppProfileAddSkillModal>
+      <AppProfileEditSkill
+        :show="getEditSkillModalState"
+        :skills="user.profile.skills"
+      >
+      </AppProfileEditSkill>
+    </template>
   </div>
 </template>
 <script>
 import { mapActions, mapGetters } from "vuex";
 import AppProfileAddEducation from "../Modal/AppProfileAddEducation.vue";
+import AppProfileAddExperienceModal from "../Modal/AppProfileAddExperienceModal.vue";
 import AppProfileEditEducation from "../Modal/AppProfileEditEducation.vue";
+import AppProfileEditExperienceModal from "../Modal/AppProfileEditExperienceModal.vue";
+import AppProfileAddSkillModal from "../Modal/AppProfileAddSkillModal.vue";
+import AppProfileEditSkill from "../Modal/AppProfileEditSkill.vue";
 export default {
   components: {
     AppProfileAddEducation,
     AppProfileEditEducation,
+    AppProfileAddExperienceModal,
+    AppProfileEditExperienceModal,
+    AppProfileAddSkillModal,
+    AppProfileEditSkill,
   },
   props: {
     user: {
@@ -126,18 +186,38 @@ export default {
     ...mapGetters("utils/modal", [
       "getEducationModalState",
       "getEditEducationModalState",
+      "getEditExperienceModalState",
+      "getExperienceModalState",
+      "getSkillModalState",
+      "getEditSkillModalState",
     ]),
   },
   methods: {
     ...mapActions("utils/modal", [
       "setEducationVisibility",
       "setEditEducationVisibility",
+      "setExperienceVisibility",
+      "setEditExperienceVisibility",
+      "setSkillVisibility",
+      "setEditSkillVisibility",
     ]),
     showEducationModal() {
       this.setEducationVisibility(true);
     },
+    showSkillModal() {
+      this.setSkillVisibility(true);
+    },
     showEditEducationModal() {
       this.setEditEducationVisibility(true);
+    },
+    showExperienceModal() {
+      this.setExperienceVisibility(true);
+    },
+    showEditExperienceModal() {
+      this.setEditExperienceVisibility(true);
+    },
+    showEditSkillModal() {
+      this.setEditSkillVisibility(true);
     },
   },
 };

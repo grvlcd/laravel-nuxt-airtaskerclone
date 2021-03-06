@@ -16,6 +16,9 @@ export default {
       userData: [],
     };
   },
+  mounted() {
+    this.slug = this.$route.params.slug;
+  },
   async fetch() {
     try {
       await this.$axios.$get("/sanctum/csrf-cookie");

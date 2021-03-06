@@ -5,21 +5,22 @@
             <div class="w-1/3 bg-white rounded shadow-lg">
             <!-- modal header -->
             <div class="flex items-center justify-between px-4 py-2 border-b">
-                <h3 class="text-lg font-semibold">Add Education</h3>
+                <h3 class="text-lg font-semibold">Post Task</h3>
                 <button class="text-black close-modal" v-on:click="onCancelModal">X</button>
             </div>
             <!-- modal body -->
             <div class="p-3">
                 <div class="flex flex-col mb-4">
-                    <label class="mb-2 font-bold uppercase text-md text-grey-darkest" for="school">School</label>
+                    <label class="mb-2 font-bold uppercase text-md text-grey-darkest" for="company">Company</label>
                     <input class="px-2 py-1 border text-grey-darkest"
-                        type="text" v-model="form.school" name="school" id="school" >
+                        type="text" name="company" v-model="form.company" id="company" >
                 </div>
                 <div class="flex flex-col mb-4">
-                    <label class="mb-2 font-bold uppercase text-md text-grey-darkest" for="course">Course</label>
+                    <label class="mb-2 font-bold uppercase text-md text-grey-darkest" for="position">Position</label>
                     <input class="px-2 py-1 border text-grey-darkest"
-                        type="text" name="course" v-model="form.course"
-                        id="course">
+                        type="text" name="position"
+                        v-model="form.position"
+                        id="position">
                 </div>
                 <div class="flex flex-col mb-4">
                     <label class="mb-2 font-bold uppercase text-md text-grey-darkest" for="to">To</label>
@@ -36,7 +37,7 @@
             </div>
             <div class="flex items-center justify-end p-3 border-t w-100">
                 <button class="px-3 py-1 mr-1 text-white bg-red-600 rounded hover:bg-red-700 close-modal" v-on:click="onCancelModal">Cancel</button>
-                <button class="px-3 py-1 text-white bg-blue-600 rounded hover:bg-blue-700">Submit</button>
+                <button class="px-3 py-1 text-white bg-blue-600 rounded hover:bg-blue-700" v-on:click="onConfirmModal">Submit</button>
             </div>
         </div>
     </div>
@@ -53,18 +54,29 @@ export default {
   data() {
     return {
       form: {
-        school: "",
-        course: "",
+        company: "",
+        position: "",
         to: "",
         from: "",
       },
     };
   },
   methods: {
-    ...mapActions("utils/modal", ["setEducationVisibility"]),
+    ...mapActions("utils/modal", ["setExperienceVisibility"]),
     onCancelModal() {
-      this.setEducationVisibility(false);
+      this.setExperienceVisibility(false);
+    },
+    async onConfirmModal() {
+      try {
+        await this.$axios.$get("/sanctum/csrf-cookie");
+        const response = await this.$axios.$post("/api/experiences", this.form);
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };
 </script>
+<style lang="">
+</style>

@@ -9,7 +9,7 @@
       <div class="w-1/3 px-2 bg-white rounded shadow-lg">
         <!-- modal header -->
         <div class="flex items-center justify-between px-4 py-2 border-b">
-          <h3 class="text-lg font-semibold">Edit Education</h3>
+          <h3 class="text-lg font-semibold">Edit Experiences</h3>
           <button class="text-black close-modal" v-on:click="onCancelModal">
             X
           </button>
@@ -18,39 +18,39 @@
         <div id="modal-body">
           <div
             class="p-3 my-3 bg-gray-300 rounded-lg"
-            v-for="education in educations"
-            :key="education.id"
+            v-for="experience in experiences"
+            :key="experience.id"
           >
             <div class="flex flex-col mb-4">
               <div class="flex flex-row items-baseline">
                 <label
                   class="flex-grow-0 mb-2 font-bold uppercase text-md text-grey-darkest"
-                  for="school"
-                  >School</label
+                  for="company"
+                  >Company</label
                 >
                 <div class="flex-grow"></div>
-                <button class="flex-grow-0 text-red-500" type="button" v-on:click="deleteEducation(education.id)">delete</button>
+                <button class="flex-grow-0 text-red-500" v-on:click="deleteExperience(experience.id)" type="button">delete</button>
               </div>
               <input
                 class="px-2 py-1 border text-grey-darkest"
                 type="text"
-                name="school"
-                :value="education.school"
-                id="school"
+                name="company"
+                :value="experience.company"
+                id="company"
               />
             </div>
             <div class="flex flex-col mb-4">
               <label
                 class="mb-2 font-bold uppercase text-md text-grey-darkest"
-                for="course"
-                >Course</label
+                for="position"
+                >Position</label
               >
               <input
                 class="px-2 py-1 border text-grey-darkest"
                 type="text"
-                name="course"
-                :value="education.course"
-                id="course"
+                name="position"
+                :value="experience.position"
+                id="position"
               />
             </div>
             <div class="grid grid-cols-2 mb-4">
@@ -63,7 +63,7 @@
                 <input
                   class="border text-grey-darkest"
                   type="date"
-                  :value="formatDate(education.to)"
+                  :value="formatDate(experience.to)"
                   name="to"
                   id="to"
                 />
@@ -77,7 +77,7 @@
                 <input
                   class="border text-grey-darkest"
                   type="date"
-                  :value="formatDate(education.from)"
+                  :value="formatDate(experience.from)"
                   name="from"
                   id="from"
                 />
@@ -109,24 +109,24 @@ export default {
     show: {
       type: Boolean,
     },
-    educations: {
+    experiences: {
       type: [Object, Array],
       required: true,
     },
   },
   methods: {
-    ...mapActions("utils/modal", ["setEditEducationVisibility"]),
+    ...mapActions("utils/modal", ["setEditExperienceVisibility"]),
     formatDate(date) {
       return date.split("T", 1)[0];
     },
     onCancelModal() {
-      this.setEditEducationVisibility(false);
+      this.setEditExperienceVisibility(false);
     },
-    async deleteEducation(education_id) {
+    async deleteExperience(experience_id) {
       try {
         await this.$axios.$get("/sanctum/csrf-cookie");
         const response = await this.$axios.$delete(
-          `/api/educations/${education_id}`
+          `api/experiences/${experience_id}`
         );
         console.log(response);
       } catch (error) {

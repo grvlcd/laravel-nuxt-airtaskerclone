@@ -8,10 +8,18 @@ use App\Models\User;
 class ProfileController extends Controller
 {
     public function show(User $profile) {
-        $profile->profile;
-        $profile->profile->skills;
-        $profile->profile->educations;
-        $profile->profile->experiences;
+        if(isset($profile->profile)) {
+            $profile->profile;
+        }
+        if(isset($profile->profile->skills)) {
+            $profile->profile->skills;
+        }
+        if(isset($profile->profile->educations)) {
+            $profile->profile->educations;
+        }
+        if(isset($profile->profile->experiences)) {
+            $profile->profile->experiences;
+        }
         return response()->json([
             'data' => $profile,
         ]);

@@ -7,6 +7,9 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ExperienceController;
+use App\Http\Controllers\SkillController;
+use App\Http\Controllers\EducationController;
 use App\Models\User;
 
 /*
@@ -22,14 +25,32 @@ use App\Models\User;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     $user = User::with(['profile'])->where('id', '=', $request->user()->id)->get()->first();
-    $user->profile->skills;
-    $user->profile->educations;
-    $user->profile->experiences;
+    if(isset($user->profile)) {
+        $user->profile;
+    }
+    if(isset($user->profile->skills)) {
+        $user->profile->skills;
+    }
+    if(isset($user->profile->educations)) {
+        $user->profile->educations;
+    }
+    if(isset($user->profile->experiences)) {
+        $user->profile->experiences;
+    }
     return $user;
 });
 
 // User Routes -------------------------------------------------------------
 Route::apiResource('profiles', ProfileController::class)->only(['show', 'update']);
+
+// Experience Routes--------------------------------------------------
+Route::apiResource('experiences', ExperienceController::class)->only(['store', 'update', 'destroy']);
+
+// Education Routes -------------------------------------------------------
+Route::apiResource('educations', EducationController::class)->only(['store', 'update', 'destroy']);
+
+// Skill Routes ---------------------------------------------
+Route::apiResource('skills', SkillController::class)->only(['store', 'update', 'destroy']);
 
 // Task Routes -------------------------------------------------------------
 Route::apiResource('tasks', TaskController::class);
