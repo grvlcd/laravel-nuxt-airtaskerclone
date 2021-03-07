@@ -21,68 +21,7 @@
             v-for="experience in experiences"
             :key="experience.id"
           >
-            <div class="flex flex-col mb-4">
-              <div class="flex flex-row items-baseline">
-                <label
-                  class="flex-grow-0 mb-2 font-bold uppercase text-md text-grey-darkest"
-                  for="company"
-                  >Company</label
-                >
-                <div class="flex-grow"></div>
-                <button class="flex-grow-0 text-red-500" v-on:click="deleteExperience(experience.id)" type="button">delete</button>
-              </div>
-              <input
-                class="px-2 py-1 border text-grey-darkest"
-                type="text"
-                name="company"
-                :value="experience.company"
-                id="company"
-              />
-            </div>
-            <div class="flex flex-col mb-4">
-              <label
-                class="mb-2 font-bold uppercase text-md text-grey-darkest"
-                for="position"
-                >Position</label
-              >
-              <input
-                class="px-2 py-1 border text-grey-darkest"
-                type="text"
-                name="position"
-                :value="experience.position"
-                id="position"
-              />
-            </div>
-            <div class="grid grid-cols-2 mb-4">
-              <div class="flex flex-col">
-                <label
-                  class="mb-2 font-bold uppercase text-md text-grey-darkest"
-                  for="to"
-                  >To</label
-                >
-                <input
-                  class="border text-grey-darkest"
-                  type="date"
-                  :value="formatDate(experience.to)"
-                  name="to"
-                  id="to"
-                />
-              </div>
-              <div class="flex flex-col">
-                <label
-                  class="mb-2 font-bold uppercase text-md text-grey-darkest"
-                  for="from"
-                  >From</label
-                >
-                <input
-                  class="border text-grey-darkest"
-                  type="date"
-                  :value="formatDate(experience.from)"
-                  name="from"
-                  id="from"
-                />
-              </div>
-            </div>
+            <AppProfileExperienceCard :experience="experience" />
           </div>
         </div>
         <div class="flex items-center justify-end p-3 border-t w-100">
@@ -104,7 +43,11 @@
 </template>
 <script>
 import { mapActions } from "vuex";
+import AppProfileExperienceCard from "../Cards/AppProfileExperienceCard.vue";
 export default {
+  components: {
+    AppProfileExperienceCard,
+  },
   props: {
     show: {
       type: Boolean,
@@ -116,22 +59,8 @@ export default {
   },
   methods: {
     ...mapActions("utils/modal", ["setEditExperienceVisibility"]),
-    formatDate(date) {
-      return date.split("T", 1)[0];
-    },
     onCancelModal() {
       this.setEditExperienceVisibility(false);
-    },
-    async deleteExperience(experience_id) {
-      try {
-        await this.$axios.$get("/sanctum/csrf-cookie");
-        const response = await this.$axios.$delete(
-          `api/experiences/${experience_id}`
-        );
-        console.log(response);
-      } catch (error) {
-        console.log(error);
-      }
     },
   },
 };

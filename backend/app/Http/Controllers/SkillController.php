@@ -16,6 +16,13 @@ class SkillController extends Controller
         ]);
     }
 
+    public function update(Request $request, Skill $skill) {
+        $skill->update($request->all());
+        return response()->json([
+            'data' => $skill
+        ]);
+    }
+
     public function destroy(Skill $skill) {
         $skill->delete();
         return response()->json([

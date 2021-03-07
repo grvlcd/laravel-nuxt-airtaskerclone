@@ -36,7 +36,7 @@
             </div>
             <div class="flex items-center justify-end p-3 border-t w-100">
                 <button class="px-3 py-1 mr-1 text-white bg-red-600 rounded hover:bg-red-700 close-modal" v-on:click="onCancelModal">Cancel</button>
-                <button class="px-3 py-1 text-white bg-blue-600 rounded hover:bg-blue-700">Submit</button>
+                <button v-on:click="onConfirmModal" class="px-3 py-1 text-white bg-blue-600 rounded hover:bg-blue-700">Submit</button>
             </div>
         </div>
     </div>
@@ -64,6 +64,15 @@ export default {
     ...mapActions("utils/modal", ["setEducationVisibility"]),
     onCancelModal() {
       this.setEducationVisibility(false);
+    },
+    async onConfirmModal() {
+      try {
+        await this.$axios.$get("/sanctum/csrf-cookie");
+        const response = await this.$axios.$post("/api/educations", this.form);
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };

@@ -17,6 +17,13 @@ class ExperienceController extends Controller
         ]);
     }
 
+    public function update(Request $request, Experience $experience) {
+        $experience->update($request->all());
+        return response()->json([
+            'data' => $experience
+        ]);
+    }
+
     public function destroy(Experience $experience) {
         $experience->delete();
         return response()->json([

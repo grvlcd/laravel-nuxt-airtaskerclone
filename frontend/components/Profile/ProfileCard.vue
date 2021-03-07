@@ -1,6 +1,15 @@
 <template>
   <div v-if="user">
-    <h1 class="text-2xl">{{ user.name }}</h1>
+    <div class="flex flex-row items-center px-2">
+      <h1 class="text-2xl">{{ user.name }}</h1>
+      <button
+        v-if="$auth.user.id === user.id"
+        type="button"
+        class="text-green-500"
+      >
+        edit
+      </button>
+    </div>
     <h6 class="text-gray-600" v-if="user.profile">
       {{ user.profile.bio }}
     </h6>
@@ -135,22 +144,22 @@
       </div>
     </div>
     <AppProfileAddEducation :show="getEducationModalState" />
+    <AppProfileAddExperienceModal
+      :show="getExperienceModalState"
+    ></AppProfileAddExperienceModal>
+    <AppProfileAddSkillModal
+      :show="getSkillModalState"
+    ></AppProfileAddSkillModal>
     <template v-if="user.profile">
       <AppProfileEditEducation
         :show="getEditEducationModalState"
         :educations="user.profile.educations"
       />
-      <AppProfileAddExperienceModal
-        :show="getExperienceModalState"
-      ></AppProfileAddExperienceModal>
       <AppProfileEditExperienceModal
         :show="getEditExperienceModalState"
         :experiences="user.profile.experiences"
       >
       </AppProfileEditExperienceModal>
-      <AppProfileAddSkillModal
-        :show="getSkillModalState"
-      ></AppProfileAddSkillModal>
       <AppProfileEditSkill
         :show="getEditSkillModalState"
         :skills="user.profile.skills"

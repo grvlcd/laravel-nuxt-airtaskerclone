@@ -16,6 +16,13 @@ class EducationController extends Controller
         ]);
     }
 
+    public function update(Request $request, Education $education) {
+        $education->update($request->all());
+        return response()->json([
+            'data' => $education
+        ]);
+    }
+
     public function destroy(Education $education) {
         $education->delete();
         return response()->json([

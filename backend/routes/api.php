@@ -61,4 +61,4 @@ Route::apiResource('comments', CommentController::class)->only(['store', 'update
 // Public Routes -----------------------------------------------------------
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout']);
-Route::get('/register', [RegisterController::class, 'store']);
+Route::post('/register', [RegisterController::class, 'store']);
