@@ -112,6 +112,7 @@ export default {
   },
   methods: {
     ...mapActions("utils/modal", ["setEducationVisibility"]),
+    ...mapActions("Profiles/profile", ["addEducation"]),
     onCancelModal() {
       this.setEducationVisibility(false);
     },
@@ -124,7 +125,7 @@ export default {
             "/api/educations",
             this.form
           );
-          console.log(response);
+          this.addEducation(response.data);
         }
       } catch (error) {
         console.log(error);

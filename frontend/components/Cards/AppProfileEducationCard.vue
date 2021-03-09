@@ -53,6 +53,7 @@
 <script>
 import AppInput from "../Utils/AppInput.vue";
 import AppDateInput from "../Utils/AppDateInput.vue";
+import { mapActions } from "vuex";
 export default {
   components: {
     AppInput,
@@ -82,6 +83,7 @@ export default {
   },
 
   methods: {
+    ...mapActions("Profiles/profile", ["deleteEducation"]),
     async onSubmit(education_id) {
       try {
         const response = await this.$refs.form.validate();
@@ -103,7 +105,7 @@ export default {
         const response = await this.$axios.$delete(
           `/api/educations/${education_id}`
         );
-        console.log(response);
+        this.deleteEducation(education_id);
       } catch (error) {
         console.log(error);
       }

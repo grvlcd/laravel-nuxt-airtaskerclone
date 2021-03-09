@@ -73,7 +73,7 @@
         <ul>
           <li
             class="text-black text-md"
-            v-for="experience in user.profile.experiences"
+            v-for="experience in getExperiences"
             :key="experience.id"
           >
             {{ experience.company }}, {{ experience.position }}
@@ -106,7 +106,7 @@
         <ul>
           <li
             class="text-black text-md"
-            v-for="education in user.profile.educations"
+            v-for="education in getEducations"
             :key="education.id"
           >
             {{ education.school }}, {{ education.course }}
@@ -135,7 +135,7 @@
         <ul>
           <li
             class="text-gray-600 text-md"
-            v-for="skills in user.profile.skills"
+            v-for="skills in getSkills"
             :key="skills.id"
           >
             {{ skills.title }}
@@ -153,17 +153,14 @@
     <template v-if="user.profile">
       <AppProfileEditEducation
         :show="getEditEducationModalState"
-        :educations="user.profile.educations"
+        :educations="getEducations"
       />
       <AppProfileEditExperienceModal
         :show="getEditExperienceModalState"
-        :experiences="user.profile.experiences"
+        :experiences="getExperiences"
       >
       </AppProfileEditExperienceModal>
-      <AppProfileEditSkill
-        :show="getEditSkillModalState"
-        :skills="user.profile.skills"
-      >
+      <AppProfileEditSkill :show="getEditSkillModalState" :skills="getSkills">
       </AppProfileEditSkill>
     </template>
   </div>
@@ -191,6 +188,17 @@ export default {
       default: ""
     }
   },
+  mounted() {
+    if (this.user.profile.skills) {
+      this.setSkills(this.user.profile.skills);
+    }
+    if (this.user.profile.experiences) {
+      this.setExperiences(this.user.profile.experiences);
+    }
+    if (this.user.profile.educations) {
+      this.setEducations(this.user.profile.educations);
+    }
+  },
   computed: {
     ...mapGetters("utils/modal", [
       "getEducationModalState",
@@ -199,6 +207,11 @@ export default {
       "getExperienceModalState",
       "getSkillModalState",
       "getEditSkillModalState"
+    ]),
+    ...mapGetters("Profiles/profile", [
+      "getSkills",
+      "getEducations",
+      "getExperiences"
     ])
   },
   methods: {
@@ -209,6 +222,11 @@ export default {
       "setEditExperienceVisibility",
       "setSkillVisibility",
       "setEditSkillVisibility"
+    ]),
+    ...mapActions("Profiles/profile", [
+      "setSkills",
+      "setEducations",
+      "setExperiences"
     ]),
     showEducationModal() {
       this.setEducationVisibility(true);

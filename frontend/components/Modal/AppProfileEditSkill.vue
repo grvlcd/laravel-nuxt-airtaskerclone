@@ -26,7 +26,7 @@
             <div class="flex-grow"></div>
             <button
               class="flex-grow-0 text-red-500"
-              v-on:click="deleteSkill(skill.id)"
+              v-on:click="onDeleteSkill(skill.id)"
               type="button"
             >
               delete
@@ -66,14 +66,15 @@ export default {
   },
   methods: {
     ...mapActions("utils/modal", ["setEditSkillVisibility"]),
+    ...mapActions("Profiles/profile", ["deleteSkill"]),
     onCancelModal() {
       this.setEditSkillVisibility(false);
     },
-    async deleteSkill(skill_id) {
+    async onDeleteSkill(skill_id) {
       try {
         await this.$axios.$get("/sanctum/csrf-cookie");
         const response = await this.$axios.$delete(`/api/skills/${skill_id}`);
-        console.log(response);
+        this.deleteSkill(skill_id);
       } catch (error) {
         console.log(error);
       }

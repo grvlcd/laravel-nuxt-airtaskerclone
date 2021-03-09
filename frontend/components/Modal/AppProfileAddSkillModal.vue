@@ -71,6 +71,7 @@ export default {
   },
   methods: {
     ...mapActions("utils/modal", ["setSkillVisibility"]),
+    ...mapActions("Profiles/profile", ["addSkill"]),
     onCancelModal() {
       this.setSkillVisibility(false);
     },
@@ -80,7 +81,9 @@ export default {
         if (response) {
           await this.$axios.$get("/sanctum/csrf-cookie");
           const response = await this.$axios.$post("/api/skills", this.form);
-          console.log(response);
+          this.addSkill(response.data);
+          this.form.title = "";
+          this.setSkillVisibility(false);
         }
       } catch (error) {
         console.log(error.response.data.message);
