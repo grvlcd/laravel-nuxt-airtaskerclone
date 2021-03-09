@@ -1,122 +1,99 @@
 <template lang="">
-  <div>
-    <div class="flex flex-col mb-4">
-      <div class="flex flex-row items-baseline">
-        <label
-          class="flex-grow-0 mb-2 font-bold uppercase text-md text-grey-darkest"
-          for="company"
-          >Company</label
-        >
-        <div class="flex-grow"></div>
-        <button
-          class="text-green-500 flex-grow-9"
-          type="button"
-          v-on:click="updateExperience(experience.id)"
-        >
-          edit
-        </button>
-        <button
-          class="flex-grow-0 text-red-500"
-          v-on:click="deleteExperience(experience.id)"
-          type="button"
-        >
-          delete
-        </button>
-      </div>
-      <input
-        class="px-2 py-1 border text-grey-darkest"
-        type="text"
-        name="company"
-        :value="experience.company"
-        @input="form.company = $event.target.value"
-        id="company"
-      />
-    </div>
-    <div class="flex flex-col mb-4">
-      <label
-        class="mb-2 font-bold uppercase text-md text-grey-darkest"
-        for="position"
-        >Position</label
-      >
-      <input
-        class="px-2 py-1 border text-grey-darkest"
-        type="text"
-        name="position"
-        :value="experience.position"
-        @input="form.position = $event.target.value"
-        id="position"
-      />
-    </div>
-    <div class="grid grid-cols-2 mb-4">
-      <div class="flex flex-col">
-        <label
-          class="mb-2 font-bold uppercase text-md text-grey-darkest"
-          for="to"
-          >To</label
-        >
-        <input
-          class="border text-grey-darkest"
-          type="date"
-          :value="formatDate(experience.to)"
-          @input="form.to = $event.target.value"
-          name="to"
-          id="to"
-        />
-      </div>
-      <div class="flex flex-col">
-        <label
-          class="mb-2 font-bold uppercase text-md text-grey-darkest"
-          for="from"
-          >From</label
-        >
-        <input
-          class="border text-grey-darkest"
-          type="date"
-          :value="formatDate(experience.from)"
-          @input="form.from = $event.target.value"
-          name="from"
-          id="from"
-        />
-      </div>
-    </div>
+  <div class="p-3 my-3 bg-gray-300 rounded-lg">
+    <ValidationObserver ref="form">
+      <form @submit.prevent="onSubmit(experience.id)">
+        <ValidationProvider mode="passive" rules="required" v-slot="{ errors }">
+          <AppInput
+            label="Company"
+            type="text"
+            v-model="form.company"
+            :error="errors[0]"
+          ></AppInput>
+        </ValidationProvider>
+        <ValidationProvider mode="passive" rules="required" v-slot="{ errors }">
+          <AppInput
+            label="Position"
+            type="text"
+            v-model="form.position"
+            :error="errors[0]"
+          ></AppInput>
+        </ValidationProvider>
+        <ValidationProvider mode="passive" rules="required" v-slot="{ errors }">
+          <AppDateInput
+            label="To"
+            type="date"
+            v-model="form.to"
+            :error="errors[0]"
+          ></AppDateInput>
+        </ValidationProvider>
+        <ValidationProvider mode="passive" rules="required" v-slot="{ errors }">
+          <AppDateInput
+            label="From"
+            type="date"
+            v-model="form.from"
+            :error="errors[0]"
+          ></AppDateInput>
+        </ValidationProvider>
+        <div class="flex flex-row items-baseline">
+          <button
+            class="flex-grow-0 text-red-500"
+            v-on:click="deleteExperience(experience.id)"
+            type="button"
+          >
+            delete
+          </button>
+          <button class="text-green-500 flex-grow-9" type="submit">
+            edit
+          </button>
+        </div>
+      </form>
+    </ValidationObserver>
   </div>
 </template>
 <script>
+import AppInput from "../Utils/AppInput.vue";
+import AppDateInput from "../Utils/AppDateInput.vue";
 export default {
+  components: {
+    AppInput,
+    AppDateInput
+  },
   props: {
     experience: {
       type: [Object, Array],
-      required: true,
-    },
+      required: true
+    }
   },
   data() {
     return {
       form: {
-        company: "",
-        position: "",
-        to: "",
-        from: "",
-      },
+        company: this.experience.company,
+        position: this.experience.position,
+        to: this.experience.to,
+        from: this.experience.from
+      }
     };
   },
-  mounted() {
-    this.form.company = this.experience.company;
-    this.form.position = this.experience.position;
-    this.form.from = this.experience.from;
-    this.form.to = this.experience.to;
+  watch: {
+    experience(newData) {
+      this.form.company = newData.company;
+      this.form.position = newData.position;
+      this.form.to = newData.to;
+      this.form.from = newData.from;
+    }
   },
   methods: {
-    formatDate(date) {
-      return date.split("T", 1)[0];
-    },
-    async updateExperience(experience_id) {
+    async onSubmit(experience_id) {
       try {
-        await this.$axios.$get("/sanctum/csrf-cookie");
-        const response = await this.$axios.$patch(
-          `/api/experiences/${experience_id}`,
-          this.form
-        );
-        console.log(response);
+        const response = await this.$refs.form.validate();
+        if (response) {
+          await this.$axios.$get("/sanctum/csrf-cookie");
+          const response = await this.$axios.$patch(
+            `/api/experiences/${experience_id}`,
+            this.form
+          );
+          console.log(response);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -131,8 +108,7 @@ export default {
       } catch (error) {
         console.log(error);
       }
-    },
-  },
+    }
+  }
 };
 </script>
-<style lang=""></style>
