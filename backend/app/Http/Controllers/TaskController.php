@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\TaskRequest;
 use App\Models\Task;
 use App\Models\User;
 use App\Http\Resources\TaskCollection;
@@ -27,7 +28,7 @@ class TaskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TaskRequest $request)
     {
         $user = $request->user();
         $task = $user->tasks()->create($request->all());

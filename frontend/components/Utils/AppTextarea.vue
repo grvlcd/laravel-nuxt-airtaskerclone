@@ -1,15 +1,16 @@
 <template>
   <div class="flex flex-col mb-4">
-    <label class="mb-2 font-bold uppercase text-md text-grey-darkest">{{
-      label
-    }}</label>
-    <input
-      class="px-2 py-1 border text-grey-darkest"
-      v-bind="$attrs"
-      :placeholder="placeholder"
-      :value="value"
+    <label
+      class="mb-2 font-bold uppercase text-md text-grey-darkest"
+      for="description"
+      >{{ label }}</label
+    >
+    <textarea
+      class="border text-grey-darkest"
+      :rows="rows"
       @input="handleInput"
-    />
+      :value="value"
+    ></textarea>
     <span class="text-sm text-red-500">{{ error }}</span>
   </div>
 </template>
@@ -20,16 +21,16 @@ export default {
       type: String,
       default: ""
     },
-    placeholder: {
-      type: String,
-      default: ""
+    rows: {
+      type: [String, Number],
+      default: 3
     },
     value: {
-      type: [String, Number, Date],
+      type: [String, Number],
       default: ""
     },
     error: {
-      type: [String, Array, Number],
+      type: [String, Number, Array],
       default: ""
     }
   },
@@ -40,3 +41,4 @@ export default {
   }
 };
 </script>
+<style lang=""></style>

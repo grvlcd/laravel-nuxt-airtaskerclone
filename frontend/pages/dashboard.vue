@@ -28,11 +28,11 @@ export default {
   components: {
     TasksList,
     TaskDetail,
-    AppTaskModal,
+    AppTaskModal
   },
   data() {
     return {
-      error: [],
+      error: []
     };
   },
   async fetch() {
@@ -46,7 +46,7 @@ export default {
   },
   computed: {
     ...mapGetters("Tasks/task", ["getTask", "getTasks", "getVisibility"]),
-    ...mapGetters("utils/modal", ["getModalState"]),
+    ...mapGetters("utils/modal", ["getModalState"])
   },
   methods: {
     ...mapActions("Tasks/task", ["setTasks", "setTask"]),
@@ -54,7 +54,7 @@ export default {
       this.setTask(null);
       this.$fetch();
       this.setTask(task);
-    },
-  },
+    }
+  }
 };
 </script>

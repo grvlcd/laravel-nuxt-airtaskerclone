@@ -183,13 +183,13 @@ export default {
     AppProfileAddExperienceModal,
     AppProfileEditExperienceModal,
     AppProfileAddSkillModal,
-    AppProfileEditSkill,
+    AppProfileEditSkill
   },
   props: {
     user: {
       type: [Object, Array],
-      default: "",
-    },
+      default: ""
+    }
   },
   computed: {
     ...mapGetters("utils/modal", [
@@ -198,8 +198,8 @@ export default {
       "getEditExperienceModalState",
       "getExperienceModalState",
       "getSkillModalState",
-      "getEditSkillModalState",
-    ]),
+      "getEditSkillModalState"
+    ])
   },
   methods: {
     ...mapActions("utils/modal", [
@@ -208,7 +208,7 @@ export default {
       "setExperienceVisibility",
       "setEditExperienceVisibility",
       "setSkillVisibility",
-      "setEditSkillVisibility",
+      "setEditSkillVisibility"
     ]),
     showEducationModal() {
       this.setEducationVisibility(true);
@@ -227,7 +227,7 @@ export default {
     },
     showEditSkillModal() {
       this.setEditSkillVisibility(true);
-    },
-  },
+    }
+  }
 };
 </script>

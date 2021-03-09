@@ -4,10 +4,11 @@
       label
     }}</label>
     <input
+      type="date"
       class="px-2 py-1 border text-grey-darkest"
       v-bind="$attrs"
       :placeholder="placeholder"
-      :value="value"
+      :value="formatDate(value)"
       @input="handleInput"
     />
     <span class="text-sm text-red-500">{{ error }}</span>
@@ -29,13 +30,16 @@ export default {
       default: ""
     },
     error: {
-      type: [String, Array, Number],
+      type: [String, Number, Array],
       default: ""
     }
   },
   methods: {
     handleInput(e) {
       this.$emit("input", e.target.value);
+    },
+    formatDate(date) {
+      return date.split("T", 1)[0];
     }
   }
 };

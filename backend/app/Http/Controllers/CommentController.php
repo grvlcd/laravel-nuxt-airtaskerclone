@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\CommentRequest;
 use App\Models\Comment;
 use App\Http\Resources\Comment as CommentResource;
 
 class CommentController extends Controller
 {
-    public function store(Request $request) {
+    public function store(CommentRequest $request) {
         $user = $request->user();
         $comment = $user->comments()->create([
             'body' => $request->body,
@@ -17,7 +18,7 @@ class CommentController extends Controller
         return new CommentResource($comment);
     }
 
-    public function update(Request $request, Comment $comment) {
+    public function update(CommentRequest $request, Comment $comment) {
         $comment->update(['body' => $request->body]);
         $comment->user;
         return new CommentResource($comment);

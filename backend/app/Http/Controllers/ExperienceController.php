@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Profile;
 use App\Models\Experience;
+use App\Http\Requests\ExperienceRequest;
 
 class ExperienceController extends Controller
 {
-    public function store(Request $request) {
+    public function store(ExperienceRequest $request) {
         $user = $request->user();
         $experience = $user->profile->experiences()
         ->create($request->all());
@@ -17,7 +18,7 @@ class ExperienceController extends Controller
         ]);
     }
 
-    public function update(Request $request, Experience $experience) {
+    public function update(ExperienceRequest $request, Experience $experience) {
         $experience->update($request->all());
         return response()->json([
             'data' => $experience

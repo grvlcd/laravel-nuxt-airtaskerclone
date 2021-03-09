@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Education;
+use App\Http\Requests\EducationRequest;
 
 class EducationController extends Controller
 {
-    public function store(Request $request) {
+    public function store(EducationRequest $request) {
         $user = $request->user();
         $education = $user->profile->educations()
         ->create($request->all());
@@ -16,7 +17,7 @@ class EducationController extends Controller
         ]);
     }
 
-    public function update(Request $request, Education $education) {
+    public function update(EducationRequest $request, Education $education) {
         $education->update($request->all());
         return response()->json([
             'data' => $education

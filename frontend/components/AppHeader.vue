@@ -117,7 +117,7 @@ import { mapActions } from "vuex";
 export default {
   data() {
     return {
-      show: false,
+      show: false
     };
   },
   // mounted() {
@@ -135,8 +135,8 @@ export default {
     showModal() {
       this.$router.push({ name: "dashboard" });
       this.setVisibility(true);
-    },
-  },
+    }
+  }
   // beforeDestroy() {
   //   // Unregister the event listener before destroying this Vue instance
   //   window.removeEventListener("resize", this.onResize);
