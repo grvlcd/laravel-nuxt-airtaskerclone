@@ -151,16 +151,10 @@
       :show="getSkillModalState"
     ></AppProfileAddSkillModal>
     <template v-if="user.profile">
-      <AppProfileEditEducation
-        :show="getEditEducationModalState"
-        :educations="getEducations"
-      />
-      <AppProfileEditExperienceModal
-        :show="getEditExperienceModalState"
-        :experiences="getExperiences"
-      >
+      <AppProfileEditEducation :show="getEditEducationModalState" />
+      <AppProfileEditExperienceModal :show="getEditExperienceModalState">
       </AppProfileEditExperienceModal>
-      <AppProfileEditSkill :show="getEditSkillModalState" :skills="getSkills">
+      <AppProfileEditSkill :show="getEditSkillModalState">
       </AppProfileEditSkill>
     </template>
   </div>

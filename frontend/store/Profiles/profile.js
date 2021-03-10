@@ -30,23 +30,26 @@ export const mutations = {
     state.skills.push(skill);
   },
   DELETE_SKILL(state, skill_id) {
-    state.skills = state.skills.filter(skill => skill.id !== skill_id);
+    const index = state.skills.findIndex(skill => skill.id === skill_id);
+    state.skills.splice(index, 1);
   },
   ADD_EXPERIENCE(state, experience) {
     state.experiences.push(experience);
   },
   DELETE_EXPERIENCE(state, experience_id) {
-    state.experiences = state.experiences.filter(
-      experience => experience.id !== experience_id
+    const index = state.experiences.findIndex(
+      experience => experience.id === experience_id
     );
+    state.experiences.splice(index, 1);
   },
   ADD_EDUCATION(state, education) {
     state.educations.push(education);
   },
-  DELETE_EXPERIENCE(state, education_id) {
-    state.educations = state.educations.filter(
-      education => education.id !== education_id
+  DELETE_EDUCATION(state, education_id) {
+    const index = state.educations.findIndex(
+      education => education.id === education_id
     );
+    state.educations.splice(index, 1);
   }
 };
 
@@ -66,16 +69,16 @@ export const actions = {
   deleteSkill({ commit }, skill_id) {
     commit("DELETE_SKILL", skill_id);
   },
-  addEducation({ commit }, education) {
-    commit("ADD_EDUCATION", education);
-  },
-  deleteEducation({ commit }, education_id) {
-    commit("DELETE_EDUCATION", education_id);
-  },
   addExperience({ commit }, experience) {
     commit("ADD_EXPERIENCE", experience);
   },
   deleteExperience({ commit }, experience_id) {
     commit("DELETE_EXPERIENCE", experience_id);
+  },
+  addEducation({ commit }, education) {
+    commit("ADD_EDUCATION", education);
+  },
+  deleteEducation({ commit }, education_id) {
+    commit("DELETE_EDUCATION", education_id);
   }
 };

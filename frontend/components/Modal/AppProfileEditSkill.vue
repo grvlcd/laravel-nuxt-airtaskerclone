@@ -18,7 +18,7 @@
       <div id="modal-body">
         <div
           class="flex flex-col p-3 my-3 bg-gray-300 rounded-lg "
-          v-for="skill in skills"
+          v-for="skill in getSkills"
           :key="skill.id"
         >
           <div class="flex flex-row items-baseline">
@@ -46,15 +46,11 @@
   </div>
 </template>
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
   props: {
     show: {
       type: Boolean
-    },
-    skills: {
-      type: [Object, Array],
-      required: true
     }
   },
   data() {
@@ -63,6 +59,9 @@ export default {
         title: ""
       }
     };
+  },
+  computed: {
+    ...mapGetters("Profiles/profile", ["getSkills"])
   },
   methods: {
     ...mapActions("utils/modal", ["setEditSkillVisibility"]),

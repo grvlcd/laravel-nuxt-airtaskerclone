@@ -16,7 +16,7 @@
       </div>
       <!-- modal body -->
       <div id="modal-body">
-        <div v-for="experience in experiences" :key="experience.id">
+        <div v-for="experience in getExperiences" :key="experience.id">
           <AppProfileExperienceCard :experience="experience" />
         </div>
       </div>
@@ -32,7 +32,7 @@
   </div>
 </template>
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import AppProfileExperienceCard from "../Cards/AppProfileExperienceCard.vue";
 export default {
   components: {
@@ -41,11 +41,10 @@ export default {
   props: {
     show: {
       type: Boolean
-    },
-    experiences: {
-      type: [Object, Array],
-      required: true
     }
+  },
+  computed: {
+    ...mapGetters("Profiles/profile", ["getExperiences"])
   },
   methods: {
     ...mapActions("utils/modal", ["setEditExperienceVisibility"]),

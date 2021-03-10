@@ -116,6 +116,12 @@ export default {
     onCancelModal() {
       this.setEducationVisibility(false);
     },
+    clearFields() {
+      this.form.school = "";
+      this.form.course = "";
+      this.form.to = "";
+      this.form.from = "";
+    },
     async onSubmit() {
       try {
         const response = await this.$refs.form.validate();
@@ -126,6 +132,7 @@ export default {
             this.form
           );
           this.addEducation(response.data);
+          this.clearFields();
         }
       } catch (error) {
         console.log(error);

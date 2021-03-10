@@ -112,8 +112,15 @@ export default {
   },
   methods: {
     ...mapActions("utils/modal", ["setExperienceVisibility"]),
+    ...mapActions("Profiles/profile", ["addExperience"]),
     onCancelModal() {
       this.setExperienceVisibility(false);
+    },
+    clearFields() {
+      this.form.company = "";
+      this.form.position = "";
+      this.form.to = "";
+      this.form.from = "";
     },
     async onSubmit() {
       try {
@@ -124,7 +131,8 @@ export default {
             "/api/experiences",
             this.form
           );
-          console.log(response);
+          this.addExperience(response.data);
+          this.clearFields();
         }
       } catch (error) {
         console.log(error);

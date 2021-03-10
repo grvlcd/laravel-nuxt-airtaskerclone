@@ -83,7 +83,6 @@ export default {
           const response = await this.$axios.$post("/api/skills", this.form);
           this.addSkill(response.data);
           this.form.title = "";
-          this.setSkillVisibility(false);
         }
       } catch (error) {
         console.log(error.response.data.message);

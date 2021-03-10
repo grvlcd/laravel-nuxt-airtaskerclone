@@ -37,7 +37,7 @@
         <div class="flex flex-row items-baseline">
           <button
             class="flex-grow-0 text-red-500"
-            v-on:click="deleteEducation(education.id)"
+            v-on:click="onDeleteEducation(education.id)"
             type="button"
           >
             delete
@@ -81,7 +81,6 @@ export default {
       this.form.from = newData.from;
     }
   },
-
   methods: {
     ...mapActions("Profiles/profile", ["deleteEducation"]),
     async onSubmit(education_id) {
@@ -99,7 +98,7 @@ export default {
         console.log(error);
       }
     },
-    async deleteEducation(education_id) {
+    async onDeleteEducation(education_id) {
       try {
         await this.$axios.$get("/sanctum/csrf-cookie");
         const response = await this.$axios.$delete(

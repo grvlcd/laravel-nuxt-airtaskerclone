@@ -16,7 +16,7 @@
       </div>
       <!-- modal body -->
       <div id="modal-body">
-        <div v-for="education in educations" :key="education.id">
+        <div v-for="education in getEducations" :key="education.id">
           <AppProfileEducationCard :education="education" />
         </div>
       </div>
@@ -32,7 +32,7 @@
   </div>
 </template>
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import AppProfileEducationCard from "../Cards/AppProfileEducationCard.vue";
 export default {
   components: {
@@ -41,11 +41,10 @@ export default {
   props: {
     show: {
       type: Boolean
-    },
-    educations: {
-      type: [Object, Array],
-      required: true
     }
+  },
+  computed: {
+    ...mapGetters("Profiles/profile", ["getEducations"])
   },
   methods: {
     ...mapActions("utils/modal", ["setEditEducationVisibility"]),

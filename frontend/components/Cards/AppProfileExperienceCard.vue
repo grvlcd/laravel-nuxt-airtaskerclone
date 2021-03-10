@@ -37,7 +37,7 @@
         <div class="flex flex-row items-baseline">
           <button
             class="flex-grow-0 text-red-500"
-            v-on:click="deleteExperience(experience.id)"
+            v-on:click="onDeleteExperience(experience.id)"
             type="button"
           >
             delete
@@ -53,6 +53,7 @@
 <script>
 import AppInput from "../Utils/AppInput.vue";
 import AppDateInput from "../Utils/AppDateInput.vue";
+import { mapActions } from "vuex";
 export default {
   components: {
     AppInput,
@@ -83,6 +84,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions("Profiles/profile", ["deleteExperience"]),
     async onSubmit(experience_id) {
       try {
         const response = await this.$refs.form.validate();
@@ -98,13 +100,13 @@ export default {
         console.log(error);
       }
     },
-    async deleteExperience(experience_id) {
+    async onDeleteExperience(experience_id) {
       try {
         await this.$axios.$get("/sanctum/csrf-cookie");
         const response = await this.$axios.$delete(
           `/api/experiences/${experience_id}`
         );
-        console.log(response);
+        this.deleteExperience(experience_id);
       } catch (error) {
         console.log(error);
       }
